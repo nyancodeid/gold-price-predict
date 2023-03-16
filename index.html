@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediksi Harga Emas</title>
+    <link href="vendors/bootstrap.min.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <section id="header">
+      <nav class="navbar navbar-expand-md bg-body-tertiary shadow">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNmZmJiMDAiIGQ9Im0xIDIybDEuNS01aDdsMS41IDVIMW0xMiAwbDEuNS01aDdsMS41IDVIMTNtLTctN2wxLjUtNWg3bDEuNSA1SDZtMTctOC45NWwtMy44NiAxLjA5TDE4LjA1IDExbC0xLjA5LTMuODZsLTMuODYtMS4wOWwzLjg2LTEuMDlsMS4wOS0zLjg2bDEuMDkgMy44NkwyMyA2LjA1WiIvPjwvc3ZnPg=="
+              alt="Logo"
+              width="24"
+              class="d-inline-block align-text-top"
+            />
+          </a>
+          <a class="navbar-brand" href="#">Prediksi Harga Emas</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://www.logammulia.com/id/harga-emas-hari-ini"
+                  >Harga Emas</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </section>
+
+    <section
+      id="form-forecast"
+      class="app-container"
+      x-data="formForecastController"
+    >
+      <div class="my-3 d-flex justify-content-between">
+        <div>
+          <!-- <button class="btn btn-primary" @click="newItem">+ Add Input</button> -->
+          <!-- <button class="btn btn-primary" @click="useDemo">Data Demo</button> -->
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-primary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Data Demo
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#" @click="useDemo('test')"
+                  >Data Test</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" @click="useDemo('large-test')"
+                  >Large Data Test</a
+                >
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-primary" @click="calculate">Prediksi</button>
+          <button class="btn btn-danger" @click="onReset">
+            <img
+              width="18px"
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xNy42NSA2LjM1QTcuOTU4IDcuOTU4IDAgMCAwIDEyIDRhOCA4IDAgMCAwLTggOGE4IDggMCAwIDAgOCA4YzMuNzMgMCA2Ljg0LTIuNTUgNy43My02aC0yLjA4QTUuOTkgNS45OSAwIDAgMSAxMiAxOGE2IDYgMCAwIDEtNi02YTYgNiAwIDAgMSA2LTZjMS42NiAwIDMuMTQuNjkgNC4yMiAxLjc4TDEzIDExaDdWNGwtMi4zNSAyLjM1WiIvPjwvc3ZnPg=="
+              alt=""
+            />
+          </button>
+        </div>
+
+        <select class="form-select w-alpha" x-model="type">
+          <template x-for="item in types">
+            <option
+              x-bind:value="item.id"
+              x-text="item.title"
+              class="text-capitalize"
+            ></option>
+          </template>
+        </select>
+
+        <div class="input-group w-alpha">
+          <span class="input-group-text">Alpha</span>
+          <input type="text" class="form-control" x-model.number="alpha" />
+        </div>
+      </div>
+
+      <textarea
+        class="font-monospace form-control mb-3"
+        rows="4"
+        x-model="dataBatch"
+        placeholder="Masukkan harga emas yang dipisahkan dengan tanda koma tanpa tambahan spasi."
+      ></textarea>
+
+      <template x-if="results.forecast">
+        <section id="result">
+          <div class="row g-0 gap-3 mb-3">
+            <div class="card text-bg-primary col-3">
+              <div class="card-body">
+                <h5 class="card-title">Hasil Prediksi</h5>
+                <p
+                  class="card-text font-monospace"
+                  x-text="toRupiah(results.forecast)"
+                ></p>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Akurasi (%)</h5>
+                <p
+                  class="card-text font-monospace"
+                  x-text="toFixed((100 - results.mape), 9) + '%'"
+                ></p>
+              </div>
+            </div>
+            <div class="card col">
+              <div class="card-body p-0">
+                <div id="chart"></div>
+              </div>
+            </div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Periode (t)</th>
+                <th>Harga ( A<sub>t</sub> )</th>
+                <th>Forecast ( F<sub>t</sub> )</th>
+                <th>Absolute Percentage Error</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="item in results.result">
+                <tr>
+                  <td x-text="item.label"></td>
+                  <td class="font-monospace" x-text="item.price"></td>
+                  <td
+                    class="font-monospace"
+                    x-text="toFixed(item.forecast, 9)"
+                  ></td>
+                  <td
+                    class="font-monospace"
+                    x-text="toFixed(item.mape, 9) + '%'"
+                  ></td>
+                </tr>
+              </template>
+              <tr>
+                <td colspan="2"><b>Next Periode</b></td>
+                <td
+                  class="fw-bold font-monospace"
+                  x-text="results.forecast"
+                ></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="2"><b>MAPE (%)</b></td>
+                <td></td>
+                <td
+                  class="fw-bold font-monospace"
+                  x-text="toFixed(results.mape, 9) + '%'"
+                ></td>
+              </tr>
+              <tr>
+                <td colspan="2"><b>Akurasi (%)</b></td>
+                <td></td>
+                <td
+                  class="fw-bold font-monospace"
+                  x-text="toFixed(100 - results.mape, 9) + '%'"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Alpha</th>
+                <th>MAPE (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="item in alphaResults">
+                <tr>
+                  <td>
+                    <span class="font-monospace" x-text="item.alpha"></span>
+                    <template x-if="item.alpha == alphaBest">
+                      <span class="badge bg-success">Terbaik</span>
+                    </template>
+                  </td>
+                  <td
+                    class="font-monospace"
+                    x-text="toFixed(item.mape, 9) + '%'"
+                  ></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </section>
+      </template>
+    </section>
+
+    <script src="vendors/apexcharts.min.js"></script>
+    <script src="vendors/bootstrap.bundle.min.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
